@@ -68,6 +68,10 @@ extension MainViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.fetchImages(searchText: searchText)
     }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.searchText = ""
+    }
 }
 
 // MARK: UICollectionViewDataSource
@@ -116,6 +120,12 @@ extension MainViewController: UICollectionViewDelegate {
         let model = viewModel.images[indexPath.item]
         let controller = SelectedViewController(image: image, model: model)
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == (viewModel.images.count - 1) {
+            viewModel.fetchAddImages()
+        }
     }
 }
 

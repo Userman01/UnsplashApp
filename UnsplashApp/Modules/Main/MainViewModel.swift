@@ -33,4 +33,12 @@ final class MainViewModel {
             self?.images = result.results
         }
     }
+    
+    func fetchAddImages() {
+        networkProvider.getImages(searchText: searchText) { [weak self] result in
+            guard let result else { return }
+            guard let strongSelf = self else { return }
+            strongSelf.images = strongSelf.images + result.results
+        }
+    }
 }
