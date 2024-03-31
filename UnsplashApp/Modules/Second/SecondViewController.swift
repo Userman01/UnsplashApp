@@ -10,7 +10,7 @@ import UIKit
 class SecondViewController: UIViewController {
     
     private enum Apperance {
-        static let itemsPerRow: CGFloat = 4
+        static let itemsPerRow: CGFloat = 3
         static let sectionEdgeInserts = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
 
@@ -62,7 +62,7 @@ extension SecondViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseID, for: indexPath) as? ImageCollectionViewCell
         guard let cell else { return UICollectionViewCell() }
         let model = viewModel.model[indexPath.item]
-        cell.configure(model: model)
+        cell.configure(image: model)
         return cell
     }
 }
@@ -74,8 +74,7 @@ extension SecondViewController: UICollectionViewDelegateFlowLayout {
         let padding = Apperance.sectionEdgeInserts.left * (Apperance.itemsPerRow + 1)
         let availableWidth = view.frame.width - padding
         let width = availableWidth / Apperance.itemsPerRow
-        let imageHeight = model.height
-        let imageWidth = model.width
+        guard let imageHeight = model.height, let imageWidth = model.width else {return .zero}
         let height = CGFloat(imageHeight) * width / CGFloat(imageWidth)
         return CGSize(width: width, height: height)
     }
@@ -97,25 +96,8 @@ extension SecondViewController: UICollectionViewDelegate {
         let model = viewModel.model[indexPath.item]
         let controller = SelectedViewController(
             image: image,
-            model: Result(id: model.id,
-                          createdAt: nil,
-                          width: model.width,
-                          height: model.height,
-                          color: nil,
-                          blurHash: nil,
-                          likes: nil,
-                          likedByUser: true,
-                          description: model.description,
-                          user: User(
-                            id: nil,
-                            username: nil,
-                            name: nil,
-                            firstName: nil,
-                            lastName: nil,
-                            instagramUsername: model.instagramUsername,
-                            twitterUsername: nil,
-                            portfolioURL: model.portfolioURL),
-                          urls: [:]))
+            model: model,
+            selectedType: .withoutNavBar)
         navigationController?.pushViewController(controller, animated: true)
     }
 }

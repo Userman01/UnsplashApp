@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol MainViewControllerDelegate {
+    func fetchImagesForRefreshControl()
+}
+
 class MainViewController: UIViewController {
     
     private enum Apperance {
@@ -19,7 +23,7 @@ class MainViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        title = "PHOTO"
+        title = "Галерея"
     }
     
     required init?(coder: NSCoder) {
@@ -27,7 +31,10 @@ class MainViewController: UIViewController {
     }
     
     override func loadView() {
-        view = MainView(frame: .zero, collectionViewDelegate: self, collectionViewDataSource: self)
+        view = MainView(frame: .zero,
+                        collectionViewDelegate: self,
+                        collectionViewDataSource: self,
+                        delegate: self)
     }
     
     override func viewDidLoad() {
@@ -109,5 +116,12 @@ extension MainViewController: UICollectionViewDelegate {
         let model = viewModel.images[indexPath.item]
         let controller = SelectedViewController(image: image, model: model)
         navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+// MARK: MainViewControllerDelegate
+extension MainViewController: MainViewControllerDelegate {
+    func fetchImagesForRefreshControl() {
+        viewModel.fetchImagesForRefreshControl()
     }
 }

@@ -24,13 +24,12 @@ extension SceneDelegate {
     
     private func makeTabBarController() -> UITabBarController {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.tintColor = .gray
-        tabBarController.tabBar.isTranslucent = false
-        tabBarController.view.backgroundColor = .white
+        tabBarController.tabBar.tintColor = .balckWhiteColor
+        tabBarController.view.backgroundColor = .backgroundColor
         let firstViewController = UINavigationController(rootViewController: MainViewController())
         let secondViewController = UINavigationController(rootViewController: SecondViewController())
-        firstViewController.tabBarItem = UITabBarItem(title: "First", image: nil, tag: 0)
-        secondViewController.tabBarItem = UITabBarItem(title: "Second", image: nil, tag: 1)
+        firstViewController.tabBarItem = UITabBarItem(title: "ГЛАВНАЯ", image: nil, tag: 0)
+        secondViewController.tabBarItem = UITabBarItem(title: "ИЗБРАННЫЕ", image: nil, tag: 1)
         tabBarController.viewControllers = [firstViewController, secondViewController]
         return tabBarController
     }

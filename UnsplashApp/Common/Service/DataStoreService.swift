@@ -13,10 +13,10 @@ final class DataStoreService {
     
     static let defaults = UserDefaults.standard
     
-    static func saveData(model: SaveModel) -> Bool {
+    static func saveData(model: Result) -> Bool {
         getKyes()
         let encoder = JSONEncoder()
-        let id = model.id
+        guard let id = model.id else { return false }
         if let encode = try? encoder.encode(model) {
             defaults.set(encode, forKey: id)
         } else {
@@ -30,6 +30,18 @@ final class DataStoreService {
         }
         // defaults.bool not working
         if let object = defaults.object(forKey: id) as? Data {
+            print(object)
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    static func isSavedData(model: Result) -> Bool {
+        getKyes()
+        guard let id = model.id else { return false }
+        if let object = defaults.object(forKey: id) as? Data {
+            print(object)
             return true
         } else {
             return false
@@ -48,13 +60,13 @@ final class DataStoreService {
         }
     }
     
-    static func getData() -> [SaveModel] {
+    static func getData() -> [Result] {
         getKyes()
-        var models: [SaveModel] = []
+        var models: [Result] = []
         keys.forEach { key in
             if let object = defaults.object(forKey: key) as? Data {
                 let decoder = JSONDecoder()
-                if let object = try? decoder.decode(SaveModel.self, from: object) {
+                if let object = try? decoder.decode(Result.self, from: object) {
                     models.append(object)
                 }
             }

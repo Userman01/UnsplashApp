@@ -14,7 +14,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .clear
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -47,12 +47,6 @@ final class ImageCollectionViewCell: UICollectionViewCell {
     func configure(image: Result) {
         let imageURL = image.urls["regular"]
         guard let imageURL = imageURL, let url = URL(string: imageURL) else { return }
-        imageView.downloadImage(from: url)
-    }
-    
-    func configure(model: SaveModel) {
-        let imageURL = model.urlImage
-        guard let url = URL(string: imageURL) else { return }
         imageView.downloadImage(from: url)
     }
     

@@ -7,7 +7,13 @@
 
 import UIKit
 
+enum SelectedType {
+    case withNavBar
+    case withoutNavBar
+}
+
 class SelectedViewController: UIViewController {
+    
     private let viewModel = SelectedViewModel()
     private lazy var customView = self.view as? SelectedView
     private var image: UIImage?
@@ -15,10 +21,12 @@ class SelectedViewController: UIViewController {
     private lazy var actionBarButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(actionButtonTapped))
     }()
+    private let selectedType: SelectedType
 
-    init(image: UIImage?, model: Result) {
+    init(image: UIImage?, model: Result, selectedType: SelectedType = .withNavBar) {
         self.image = image
         self.resultModel = model
+        self.selectedType = selectedType
         super.init(nibName: nil, bundle: nil)
         title = "Selected"
     }
@@ -36,6 +44,7 @@ class SelectedViewController: UIViewController {
         customView?.configure(image: image, model: resultModel)
         setupNavigationBar()
         setupStateObservers()
+        viewModel.isSavedImage(model: resultModel)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,11 +58,13 @@ class SelectedViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.rightBarButtonItem = actionBarButtonItem
+        if selectedType == .withNavBar {
+            navigationItem.rightBarButtonItem = actionBarButtonItem
+        }
     }
     
     @objc func actionButtonTapped() {
-        viewModel.saveImage(image: image, model: resultModel)
+        viewModel.saveImage(model: resultModel)
     }
     
     private func setupStateObservers() {
@@ -63,9 +74,6 @@ class SelectedViewController: UIViewController {
                 if isSaved {
                     self?.navigationItem.rightBarButtonItem?.isEnabled = false
                     self?.navigationItem.rightBarButtonItem?.tintColor = .lightGray
-                    let alert = UIAlertController(title: "", message: "Сохранено", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self?.present(alert, animated: true)
                 } else {
                     self?.navigationItem.rightBarButtonItem?.isEnabled = true
                 }

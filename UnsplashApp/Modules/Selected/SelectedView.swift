@@ -14,7 +14,7 @@ final class SelectedView: UIView {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .clear
         imageView.contentMode = .scaleAspectFit
         imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         imageView.setContentHuggingPriority(.defaultLow, for: .vertical)
@@ -28,6 +28,7 @@ final class SelectedView: UIView {
         stackView.alignment = .top
         stackView.axis = .vertical
         stackView.spacing = .zero
+        stackView.backgroundColor = .clear
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -42,6 +43,7 @@ final class SelectedView: UIView {
     }
     
     private func setupLayout() {
+        backgroundColor = .backgroundColor
         addSubview(stackView)
         stackView.addArrangedSubview(imageView)
         

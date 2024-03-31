@@ -8,12 +8,12 @@
 import Foundation
 
 // MARK: - ResultsModel
-struct ResultsModel: Decodable {
+struct ResultsModel: Codable {
     let results: [Result]
 }
 
 // MARK: - Result
-struct Result: Decodable {
+struct Result: Codable {
     let id: String?
     let createdAt: String?
     let width, height: Int?
@@ -37,7 +37,7 @@ struct Result: Decodable {
 }
 
 // MARK: - ResultLinks
-struct ResultLinks: Decodable {
+struct ResultLinks: Codable {
     let linksSelf: String
     let html, download: String
 
@@ -53,7 +53,7 @@ enum Urls: String {
 }
 
 // MARK: - User
-struct User: Decodable {
+struct User: Codable {
     let id, username, name, firstName: String?
     let lastName, instagramUsername, twitterUsername: String?
     let portfolioURL: String?

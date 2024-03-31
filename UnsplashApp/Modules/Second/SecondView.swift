@@ -17,6 +17,7 @@ final class SecondView: UIView {
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.layoutMargins = ViewMetrics.layoutMargins
         collectionView.contentInsetAdjustmentBehavior = .automatic
+        collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -37,6 +38,7 @@ final class SecondView: UIView {
     }
     
     private func setupLayout() {
+        backgroundColor = .backgroundColor
         addSubview(collectionView)
         
         NSLayoutConstraint.activate([

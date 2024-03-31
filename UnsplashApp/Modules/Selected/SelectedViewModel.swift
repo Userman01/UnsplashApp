@@ -13,17 +13,11 @@ final class SelectedViewModel {
     @Published var isSaved: Bool = false
     var cancellables = Set<AnyCancellable>()
     
-    func saveImage(image: UIImage?, model: Result) {
-        guard let id = model.id else { return }
-        let model = SaveModel(
-            id: id,
-            urlImage: model.urls["regular"] ?? "",
-            name: model.user?.name ?? "",
-            description: model.description ?? "",
-            instagramUsername: model.user?.instagramUsername ?? "",
-            portfolioURL: model.user?.portfolioURL ?? "",
-            width: model.width ?? .zero,
-            height: model.height ?? .zero)
+    func saveImage(model: Result) {
         isSaved = DataStoreService.saveData(model: model)
+    }
+    
+    func isSavedImage(model: Result) {
+        isSaved = DataStoreService.isSavedData(model: model)
     }
 }

@@ -12,7 +12,7 @@ final class SecondViewModel {
     
     var cancellables = Set<AnyCancellable>()
     
-    @Published var model: [SaveModel] = []
+    @Published var model: [Result] = []
     
     func getDataSaved() {
         model = DataStoreService.getData()
